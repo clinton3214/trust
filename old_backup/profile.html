@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1&display=swap" rel="stylesheet">
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary": "#525557", "surface-container": "#e9edff", "secondary": "#006c49", "on-primary-fixed": "#00174b", "on-tertiary-container": "#eff0f2", "on-primary-fixed-variant": "#003ea8", "secondary-container": "#6cf8bb", "surface-container-high": "#e1e8fd", "on-secondary-fixed-variant": "#005236", "surface": "#f9f9ff", "on-surface-variant": "#434655", "on-secondary-container": "#00714d", "tertiary-fixed-dim": "#c5c6c8", "on-surface": "#141b2b", "on-tertiary": "#ffffff", "surface-bright": "#f9f9ff", "outline-variant": "#c3c6d7", "primary": "#004ac6", "background": "#f9f9ff", "on-background": "#141b2b", "surface-dim": "#d3daef", "on-primary": "#ffffff", "on-secondary-fixed": "#002113", "primary-fixed-dim": "#b4c5ff", "on-error": "#ffffff", "surface-container-low": "#f1f3ff", "primary-container": "#2563eb", "error-container": "#ffdad6", "tertiary-fixed": "#e1e2e4", "outline": "#737686", "surface-container-lowest": "#ffffff", "inverse-primary": "#b4c5ff", "secondary-fixed-dim": "#4edea3", "tertiary-container": "#6b6d6f", "inverse-on-surface": "#edf0ff", "surface-container-highest": "#dce2f7", "on-secondary": "#ffffff", "primary-fixed": "#dbe1ff", "secondary-fixed": "#6ffbbe", "surface-variant": "#dce2f7", "error": "#ba1a1a", "on-primary-container": "#eeefff", "on-tertiary-fixed": "#191c1e", "on-tertiary-fixed-variant": "#444749", "surface-tint": "#0053db", "on-error-container": "#93000a", "inverse-surface": "#293040" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-xl": "2rem", "margin": "2rem", "margin-mobile": "1rem", "gutter-mobile": "1rem", "space-lg": "1.5rem", "space-md": "1rem" }, "fontFamily": { "label-sm": ["Manrope"], "headline-lg": ["Manrope"], "display-hero": ["Manrope"], "label-md": ["Manrope"], "body-md": ["Manrope"], "body-lg": ["Manrope"], "display-hero-mobile": ["Manrope"], "tabular-balance": ["Manrope"], "body-sm": ["Manrope"], "headline-lg-mobile": ["Manrope"], "headline-md": ["Manrope"], "headline-sm": ["Manrope"] }, "fontSize": { "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "600" }], "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "500" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "600" }], "tabular-balance": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script>
+
+<link rel="manifest" href="manifest.json">
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="h-20 max-w-[1200px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-space-lg">
+    <div class="flex items-center gap-space-xl">
+      <a class="flex items-center gap-space-sm group" href="dashboard.html">
+        <div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center">
+          <span class="material-symbols-outlined text-on-primary text-[22px] notranslate" translate="no">account_balance</span>
+        </div>
+        <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold">Trust Bank</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-space-xs">
+        <a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" href="dashboard.html">Dashboard</a>
+        <a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" href="transfer.html">Transfers</a>
+        <a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" href="#">Accounts</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-space-md">
+      <div class="flex items-center gap-space-sm pl-space-xs">
+        <div class="hidden md:flex flex-col text-right">
+          <span class="font-label-md text-label-md text-on-surface font-semibold leading-tight" id="header-user-name">---</span>
+          <span class="font-label-sm text-label-sm text-outline leading-tight">Checking ••4820</span>
+        </div>
+        <a href="profile.html" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.06)] cursor-pointer">
+          <span class="material-symbols-outlined text-on-primary text-[18px] notranslate" translate="no">person</span>
+        </a>
+        <a href="index.html" class="ml-2 text-sm text-primary underline">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="w-full pt-20 bg-surface min-h-screen">
+  <div class="flex flex-col w-full max-w-[1200px] mx-auto px-margin-mobile lg:px-margin py-space-xl">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl">
+      <div class="space-y-space-xs max-w-2xl">
+        <div class="flex items-center gap-space-xs">
+          <span class="w-2 h-2 rounded-full bg-primary"></span>
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Account Management</span>
+        </div>
+        <h1 class="font-display-hero text-headline-lg lg:text-display-hero text-on-surface tracking-tight">Profile &amp; Settings</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">Manage your personal credentials, linked routing parameters, security protocols, and operational preferences.</p>
+      </div>
+      <div class="flex items-center gap-space-sm self-start md:self-auto">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-sm text-label-sm font-semibold">
+          <span class="material-symbols-outlined text-[16px] notranslate" translate="no">verified</span>Tier-1 Verified
+        </span>
+        <span class="text-outline font-label-sm text-label-sm">ID: TB-882109</span>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+      <aside class="lg:col-span-4 w-full">
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md space-y-space-xs sticky top-24">
+          <div class="px-space-md py-space-sm mb-space-xs">
+            <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Navigation</span>
+          </div>
+          <button class="w-full flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container-low text-primary font-label-md text-label-md font-semibold transition-colors" type="button">
+            <div class="flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-[20px] notranslate" style="font-variation-settings: 'FILL' 1;" translate="no">badge</span>
+              <span>Personal Info</span>
+            </div>
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          </button>
+          <a class="w-full flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#security">
+            <div class="flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-[20px] notranslate" translate="no">security</span>
+              <span>Security &amp; Biometrics</span>
+            </div>
+            <span class="material-symbols-outlined text-[16px] text-outline notranslate" translate="no">chevron_right</span>
+          </a>
+          <a class="w-full flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#accounts">
+            <div class="flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-[20px] notranslate" translate="no">account_balance</span>
+              <span>Linked Accounts &amp; Routing</span>
+            </div>
+            <span class="material-symbols-outlined text-[16px] text-outline notranslate" translate="no">chevron_right</span>
+          </a>
+        </div>
+      </aside>
+
+      <main class="lg:col-span-8 space-y-space-xl w-full">
+        <section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-lg">
+            <div class="flex items-center gap-space-lg">
+              <label class="relative cursor-pointer group block" for="avatar-upload">
+                <input type="file" id="avatar-upload" accept="image/*" class="hidden">
+                <div id="avatar-container" class="w-20 h-20 rounded-full overflow-hidden bg-primary flex items-center justify-center text-on-primary font-headline-lg text-headline-lg shadow-sm group-hover:opacity-90 transition">
+                  <span class="material-symbols-outlined text-[40px] notranslate" id="avatar-icon" translate="no">person</span>
+                </div>
+                <span class="absolute bottom-0 right-0 w-6 h-6 bg-secondary rounded-full flex items-center justify-center text-on-secondary shadow-sm">
+                  <span class="material-symbols-outlined text-[14px] notranslate" translate="no">edit</span>
+                </span>
+              </label>
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <h2 class="font-headline-md text-headline-md text-on-surface font-semibold" id="profile-user-name">---</h2>
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">Primary</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Member since October 2021 • Verified Tier-1 Banking Customer</p>
+                <p class="font-label-sm text-label-sm text-outline">San Francisco Metropolitan Region, USA</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg space-y-space-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Personal Information</h3>
+              <p class="font-body-sm text-body-sm text-outline">Verify legal name, verified communication endpoints, and permanent address.</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Full Legal Name</label>
+              <div class="flex items-center justify-between p-space-md bg-surface-container-low rounded-lg">
+                <span class="font-body-md text-body-md text-on-surface font-medium" id="display-name">...</span>
+                <span class="material-symbols-outlined text-outline text-[18px] notranslate" translate="no">lock</span>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Date of Birth</label>
+              <div class="flex items-center justify-between p-space-md bg-surface-container-low rounded-lg">
+                <span class="font-body-md text-body-md text-on-surface font-medium" id="display-dob">...</span>
+                <span class="material-symbols-outlined text-outline text-[18px] notranslate" translate="no">lock</span>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Email Address</label>
+              <div class="flex items-center justify-between p-space-md bg-surface-container-lowest shadow-sm rounded-lg">
+                <input class="bg-transparent font-body-md text-body-md text-on-surface w-full focus:outline-none" readonly="" type="email" id="display-email" value=""/>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Primary Phone Number</label>
+              <div class="flex items-center justify-between p-space-md bg-surface-container-lowest shadow-sm rounded-lg">
+                <input class="bg-transparent font-body-md text-body-md text-on-surface w-full focus:outline-none" readonly="" type="tel" id="display-phone" value=""/>
+              </div>
+            </div>
+            <div class="space-y-1.5 md:col-span-2">
+              <label class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Primary Residential Address</label>
+              <div class="flex items-center justify-between p-space-md bg-surface-container-lowest shadow-sm rounded-lg">
+                <div class="flex items-center gap-space-sm">
+                  <span class="material-symbols-outlined text-outline text-[20px] notranslate" translate="no">home_pin</span>
+                  <span class="font-body-md text-body-md text-on-surface" id="display-address">...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg space-y-space-lg" id="accounts">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Account Identifiers &amp; Routing</h3>
+            </div>
+          </div>
+          <div class="space-y-space-sm">
+            <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">Everyday Checking Account</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-headline-sm text-headline-sm tracking-widest text-on-surface font-mono" id="checking-acct">•••• •••• ••••</span>
+                  <button class="text-primary text-label-sm font-label-sm hover:underline ml-1" id="reveal-checking" type="button">Reveal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+      </main>
+    </div>
+  </div>
+</main>
+<script type="module">
+  import { getProfile, setProfile } from './app.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const p = await getProfile();
+    document.getElementById('display-name').textContent = p.name;
+    document.getElementById('display-dob').textContent = p.dob;
+    document.getElementById('display-email').value = p.email;
+    document.getElementById('display-phone').value = p.phone;
+    document.getElementById('display-address').textContent = p.address;
+    
+    // Header names
+    const headerUserName = document.getElementById('header-user-name');
+    if (headerUserName) headerUserName.textContent = p.name;
+    const profileUserName = document.getElementById('profile-user-name');
+    if (profileUserName) profileUserName.textContent = p.name;
+
+    const checkingNum = p.checking;
+    const hiddenChecking = '•••• •••• ' + checkingNum.slice(-4);
+    
+    const revealBtn = document.getElementById('reveal-checking');
+    const checkingDisplay = document.getElementById('checking-acct');
+    let isRevealed = false;
+    
+    checkingDisplay.textContent = hiddenChecking;
+
+    if (revealBtn && checkingDisplay) {
+      revealBtn.addEventListener('click', () => {
+        isRevealed = !isRevealed;
+        if (isRevealed) {
+          checkingDisplay.textContent = checkingNum;
+          revealBtn.textContent = 'Hide';
+        } else {
+          checkingDisplay.textContent = hiddenChecking;
+          revealBtn.textContent = 'Reveal';
+        }
+      });
+    }
+
+    // Avatar Logic
+    const avatarContainer = document.getElementById('avatar-container');
+    const headerAvatar = document.querySelector('header a[href="profile.html"]');
+    
+    function setAvatarImage(dataUrl) {
+      if (dataUrl) {
+        avatarContainer.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover">`;
+        if (headerAvatar) {
+          headerAvatar.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover rounded-full">`;
+        }
+      }
+    }
+    
+    if (p.avatar) {
+      setAvatarImage(p.avatar);
+    }
+
+    const uploadInput = document.getElementById('avatar-upload');
+    if (uploadInput) {
+      uploadInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.onload = async () => {
+              const canvas = document.createElement('canvas');
+              let width = img.width;
+              let height = img.height;
+              const MAX_SIZE = 250;
+              if (width > height) {
+                if (width > MAX_SIZE) {
+                  height *= MAX_SIZE / width;
+                  width = MAX_SIZE;
+                }
+              } else {
+                if (height > MAX_SIZE) {
+                  width *= MAX_SIZE / height;
+                  height = MAX_SIZE;
+                }
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+              const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+              
+              setAvatarImage(dataUrl);
+              const currentProfile = await getProfile();
+              currentProfile.avatar = dataUrl;
+              await setProfile(currentProfile);
+            };
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  });
+</script>
+
+
+<!-- Custom Translate Widget -->
+<div id="custom-translate-widget" class="notranslate" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif;">
+  <div id="translate-menu" style="display: none; position: absolute; bottom: 60px; right: 0; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 220px; max-height: 350px; overflow-y: auto; border: 1px solid #e1e2e4;">
+    <!-- Options injected by JS -->
+  </div>
+  <button id="translate-btn" style="width: 48px; height: 48px; border-radius: 50%; background: #004ac6; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    <span class="material-symbols-outlined notranslate" style="font-size: 24px; color: white;">translate</span>
+  </button>
+</div>
+
+<div id="google_translate_element" style="display: none;"></div>
+
+<style>
+/* Hide Google Translate Banner & native widget */
+.skiptranslate iframe { display: none !important; }
+body { top: 0 !important; }
+.goog-te-combo { display: none !important; }
+/* Scrollbar for menu */
+#translate-menu::-webkit-scrollbar { width: 6px; }
+#translate-menu::-webkit-scrollbar-track { background: transparent; }
+#translate-menu::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 4px; }
+.translate-option { padding: 12px 16px; cursor: pointer; color: #141b2b; transition: background 0.2s; font-size: 14px; display: flex; align-items: center; border-bottom: 1px solid #f1f3ff; }
+.translate-option:last-child { border-bottom: none; }
+.translate-option:hover { background: #f1f3ff; }
+.translate-option.active { background: #e9edff; color: #004ac6; font-weight: 600; }
+</style>
+
+<script type="text/javascript">
+  const languages = [
+    { code: 'af', name: 'Afrikaans' },
+    { code: 'sq', name: 'Albanian' },
+    { code: 'am', name: 'Amharic' },
+    { code: 'ar', name: 'Arabic' },
+    { code: 'hy', name: 'Armenian' },
+    { code: 'az', name: 'Azerbaijani' },
+    { code: 'eu', name: 'Basque' },
+    { code: 'be', name: 'Belarusian' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'bs', name: 'Bosnian' },
+    { code: 'bg', name: 'Bulgarian' },
+    { code: 'ca', name: 'Catalan' },
+    { code: 'ceb', name: 'Cebuano' },
+    { code: 'ny', name: 'Chichewa' },
+    { code: 'zh-CN', name: 'Chinese (Simplified)' },
+    { code: 'zh-TW', name: 'Chinese (Traditional)' },
+    { code: 'co', name: 'Corsican' },
+    { code: 'hr', name: 'Croatian' },
+    { code: 'cs', name: 'Czech' },
+    { code: 'da', name: 'Danish' },
+    { code: 'nl', name: 'Dutch' },
+    { code: 'en', name: 'English' },
+    { code: 'eo', name: 'Esperanto' },
+    { code: 'et', name: 'Estonian' },
+    { code: 'tl', name: 'Filipino' },
+    { code: 'fi', name: 'Finnish' },
+    { code: 'fr', name: 'French' },
+    { code: 'fy', name: 'Frisian' },
+    { code: 'gl', name: 'Galician' },
+    { code: 'ka', name: 'Georgian' },
+    { code: 'de', name: 'German' },
+    { code: 'el', name: 'Greek' },
+    { code: 'gu', name: 'Gujarati' },
+    { code: 'ht', name: 'Haitian Creole' },
+    { code: 'ha', name: 'Hausa' },
+    { code: 'haw', name: 'Hawaiian' },
+    { code: 'he', name: 'Hebrew' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'hmn', name: 'Hmong' },
+    { code: 'hu', name: 'Hungarian' },
+    { code: 'is', name: 'Icelandic' },
+    { code: 'ig', name: 'Igbo' },
+    { code: 'id', name: 'Indonesian' },
+    { code: 'ga', name: 'Irish' },
+    { code: 'it', name: 'Italian' },
+    { code: 'ja', name: 'Japanese' },
+    { code: 'jw', name: 'Javanese' },
+    { code: 'kn', name: 'Kannada' },
+    { code: 'kk', name: 'Kazakh' },
+    { code: 'km', name: 'Khmer' },
+    { code: 'rw', name: 'Kinyarwanda' },
+    { code: 'ko', name: 'Korean' },
+    { code: 'ku', name: 'Kurdish (Kurmanji)' },
+    { code: 'ky', name: 'Kyrgyz' },
+    { code: 'lo', name: 'Lao' },
+    { code: 'la', name: 'Latin' },
+    { code: 'lv', name: 'Latvian' },
+    { code: 'lt', name: 'Lithuanian' },
+    { code: 'lb', name: 'Luxembourgish' },
+    { code: 'mk', name: 'Macedonian' },
+    { code: 'mg', name: 'Malagasy' },
+    { code: 'ms', name: 'Malay' },
+    { code: 'ml', name: 'Malayalam' },
+    { code: 'mt', name: 'Maltese' },
+    { code: 'mi', name: 'Maori' },
+    { code: 'mr', name: 'Marathi' },
+    { code: 'mn', name: 'Mongolian' },
+    { code: 'my', name: 'Myanmar (Burmese)' },
+    { code: 'ne', name: 'Nepali' },
+    { code: 'no', name: 'Norwegian' },
+    { code: 'or', name: 'Odia (Oriya)' },
+    { code: 'ps', name: 'Pashto' },
+    { code: 'fa', name: 'Persian' },
+    { code: 'pl', name: 'Polish' },
+    { code: 'pt', name: 'Portuguese' },
+    { code: 'pa', name: 'Punjabi' },
+    { code: 'ro', name: 'Romanian' },
+    { code: 'ru', name: 'Russian' },
+    { code: 'sm', name: 'Samoan' },
+    { code: 'gd', name: 'Scots Gaelic' },
+    { code: 'sr', name: 'Serbian' },
+    { code: 'st', name: 'Sesotho' },
+    { code: 'sn', name: 'Shona' },
+    { code: 'sd', name: 'Sindhi' },
+    { code: 'si', name: 'Sinhala' },
+    { code: 'sk', name: 'Slovak' },
+    { code: 'sl', name: 'Slovenian' },
+    { code: 'so', name: 'Somali' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'su', name: 'Sundanese' },
+    { code: 'sw', name: 'Swahili' },
+    { code: 'sv', name: 'Swedish' },
+    { code: 'tg', name: 'Tajik' },
+    { code: 'ta', name: 'Tamil' },
+    { code: 'tt', name: 'Tatar' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'th', name: 'Thai' },
+    { code: 'tr', name: 'Turkish' },
+    { code: 'tk', name: 'Turkmen' },
+    { code: 'uk', name: 'Ukrainian' },
+    { code: 'ur', name: 'Urdu' },
+    { code: 'ug', name: 'Uyghur' },
+    { code: 'uz', name: 'Uzbek' },
+    { code: 'vi', name: 'Vietnamese' },
+    { code: 'cy', name: 'Welsh' },
+    { code: 'xh', name: 'Xhosa' },
+    { code: 'yi', name: 'Yiddish' },
+    { code: 'yo', name: 'Yoruba' },
+    { code: 'zu', name: 'Zulu' }
+  ];
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function setLanguage(langCode) {
+    document.cookie = "googtrans=/en/" + langCode + "; path=/;";
+    document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/;";
+    window.location.reload();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('translate-menu');
+    const btn = document.getElementById('translate-btn');
+    
+    let currentLang = 'en';
+    const cookie = getCookie('googtrans');
+    if (cookie) {
+      const parts = cookie.split('/');
+      if (parts.length > 2) currentLang = parts[2];
+    }
+
+    languages.forEach(lang => {
+      const div = document.createElement('div');
+      div.className = 'translate-option' + (currentLang === lang.code ? ' active' : '');
+      div.innerHTML = lang.name;
+      div.onclick = () => {
+        menu.style.display = 'none';
+        if (currentLang !== lang.code) setLanguage(lang.code);
+      };
+      menu.appendChild(div);
+    });
+
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  });
+
+  function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+          pageLanguage: 'en', 
+          autoDisplay: false
+      }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('ServiceWorker registration successful');
+      }).catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

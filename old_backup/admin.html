@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1&display=swap" rel="stylesheet">
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary": "#525557", "surface-container": "#e9edff", "secondary": "#006c49", "on-primary-fixed": "#00174b", "on-tertiary-container": "#eff0f2", "on-primary-fixed-variant": "#003ea8", "secondary-container": "#6cf8bb", "surface-container-high": "#e1e8fd", "on-secondary-fixed-variant": "#005236", "surface": "#f9f9ff", "on-surface-variant": "#434655", "on-secondary-container": "#00714d", "tertiary-fixed-dim": "#c5c6c8", "on-surface": "#141b2b", "on-tertiary": "#ffffff", "surface-bright": "#f9f9ff", "outline-variant": "#c3c6d7", "primary": "#004ac6", "background": "#f9f9ff", "on-background": "#141b2b", "surface-dim": "#d3daef", "on-primary": "#ffffff", "on-secondary-fixed": "#002113", "primary-fixed-dim": "#b4c5ff", "on-error": "#ffffff", "surface-container-low": "#f1f3ff", "primary-container": "#2563eb", "error-container": "#ffdad6", "tertiary-fixed": "#e1e2e4", "outline": "#737686", "surface-container-lowest": "#ffffff", "inverse-primary": "#b4c5ff", "secondary-fixed-dim": "#4edea3", "tertiary-container": "#6b6d6f", "inverse-on-surface": "#edf0ff", "surface-container-highest": "#dce2f7", "on-secondary": "#ffffff", "primary-fixed": "#dbe1ff", "secondary-fixed": "#6ffbbe", "surface-variant": "#dce2f7", "error": "#ba1a1a", "on-primary-container": "#eeefff", "on-tertiary-fixed": "#191c1e", "on-tertiary-fixed-variant": "#444749", "surface-tint": "#0053db", "on-error-container": "#93000a", "inverse-surface": "#293040" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-xl": "2rem", "margin": "2rem", "margin-mobile": "1rem", "gutter-mobile": "1rem", "space-lg": "1.5rem", "space-md": "1rem" }, "fontFamily": { "label-sm": ["Manrope"], "headline-lg": ["Manrope"], "display-hero": ["Manrope"], "label-md": ["Manrope"], "body-md": ["Manrope"], "body-lg": ["Manrope"], "display-hero-mobile": ["Manrope"], "tabular-balance": ["Manrope"], "body-sm": ["Manrope"], "headline-lg-mobile": ["Manrope"], "headline-md": ["Manrope"], "headline-sm": ["Manrope"] }, "fontSize": { "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "600" }], "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "500" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "600" }], "tabular-balance": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script>
+
+<link rel="manifest" href="manifest.json">
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+<header class="fixed top-0 w-full z-50 bg-gray-900 text-white backdrop-blur-xl shadow-md">
+  <div class="h-20 max-w-[1200px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-space-lg">
+    <div class="flex items-center gap-space-xl">
+      <div class="flex items-center gap-space-sm group">
+        <div class="w-9 h-9 rounded-lg bg-red-600 flex items-center justify-center">
+          <span class="material-symbols-outlined text-white text-[22px] notranslate" translate="no">admin_panel_settings</span>
+        </div>
+        <span class="font-headline-sm text-headline-sm tracking-tight font-semibold">Trust Bank Admin</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-space-md">
+      <div class="flex items-center gap-space-sm pl-space-xs">
+        <div class="hidden md:flex flex-col text-right">
+          <span class="font-label-md text-label-md font-semibold leading-tight">System Administrator</span>
+        </div>
+        <a href="index.html" class="ml-2 text-sm text-red-400 underline hover:text-red-300">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="w-full pt-20 bg-surface min-h-screen">
+  <div class="flex flex-col w-full">
+    <div class="max-w-[1200px] w-full mx-auto px-margin-mobile lg:px-margin py-space-xl flex flex-col gap-space-xl">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-md">
+        <div>
+          <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Administrative Control Panel</span>
+          <h1 class="font-display-hero text-headline-lg lg:text-display-hero text-on-surface tracking-tight mt-space-xs">Dashboard</h1>
+        </div>
+      </div>
+
+      <!-- Controls Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+        
+        <!-- User Balance Control -->
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md border-t-4 border-primary">
+          <h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined notranslate" translate="no">account_balance_wallet</span> User Target Balance
+          </h2>
+          <p class="text-outline text-sm">Set the starting/target balance for the standard user.</p>
+          <div class="flex items-center gap-2 mt-2">
+            <span class="font-bold text-xl">$</span>
+            <input type="number" id="admin-balance" class="w-full bg-surface-container-low px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" step="0.01">
+            <button id="save-balance-btn" class="px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-container transition">Update</button>
+          </div>
+        </div>
+
+        <!-- Transfer Limit Control -->
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md border-t-4 border-amber-500">
+          <h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined notranslate" translate="no">gavel</span> Transaction Cap Limit
+          </h2>
+          <p class="text-outline text-sm">Set the maximum allowable transfer amount per transaction.</p>
+          <div class="flex items-center gap-2 mt-2">
+            <span class="font-bold text-xl">$</span>
+            <input type="number" id="admin-limit" class="w-full bg-surface-container-low px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" step="0.01">
+            <button id="save-limit-btn" class="px-4 py-2 bg-amber-500 text-white rounded-lg font-semibold hover:bg-amber-600 transition">Update</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Profile Editor -->
+      <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md border-t-4 border-purple-500" id="profile-section">
+        <div class="flex items-center justify-between">
+          <h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined notranslate" translate="no">manage_accounts</span> User Profile Editor
+          </h2>
+          <div class="flex items-center gap-2">
+            <a href="admin_chat.html" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition flex items-center gap-2">
+              <span class="material-symbols-outlined notranslate" translate="no">support_agent</span> Customer Care Chat
+            </a>
+            <button id="clear-chat-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition flex items-center gap-2">
+              <span class="material-symbols-outlined notranslate" translate="no">delete_sweep</span> Clear Chat
+            </button>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-semibold text-outline uppercase">Name</label>
+            <input type="text" id="prof-name" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-outline uppercase">DOB</label>
+            <input type="text" id="prof-dob" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-outline uppercase">Email</label>
+            <input type="email" id="prof-email" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-outline uppercase">Phone</label>
+            <input type="text" id="prof-phone" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+          <div class="md:col-span-2">
+            <label class="text-xs font-semibold text-outline uppercase">Address</label>
+            <input type="text" id="prof-address" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 border-t pt-4">
+          <div>
+            <label class="text-xs font-semibold text-outline uppercase">User Password</label>
+            <input type="text" id="prof-user-pass" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-outline uppercase">Admin Password</label>
+            <input type="text" id="prof-admin-pass" class="w-full bg-surface-container-low px-4 py-2 rounded-lg mt-1">
+          </div>
+        </div>
+        <div class="flex justify-end mt-2">
+          <button id="save-profile-btn" class="px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- Pending Transfers List -->
+      <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg lg:p-space-xl flex flex-col mt-4">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-red-500 notranslate" translate="no">pending_actions</span> Pending Transfers
+          </h2>
+          <button id="clear-tx-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition flex items-center gap-2">
+            <span class="material-symbols-outlined notranslate" translate="no">delete_sweep</span> Clear All Transactions
+          </button>
+        </div>
+        
+        <div class="flex flex-col gap-4" id="pending-list">
+          <!-- JS Rendered -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script type="module">
+  import { clearMessages, clearTransactions, formatCurrency, getFinancials, getProfile, getTransactions, setProfile, updateFinancials, updateTransactionStatus, getPasswords, updatePasswords } from './app.js';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const clearChatBtn = document.getElementById('clear-chat-btn');
+    if (clearChatBtn) {
+      clearChatBtn.addEventListener('click', async () => {
+        if(confirm('Are you sure you want to delete all messages? This action cannot be undone.')) {
+          await clearMessages();
+          alert('All chat messages have been permanently deleted.');
+        }
+      });
+    }
+
+    const clearTxBtn = document.getElementById('clear-tx-btn');
+    if (clearTxBtn) {
+      clearTxBtn.addEventListener('click', async () => {
+        if(confirm('Are you sure you want to delete all transactions? This action cannot be undone.')) {
+          await clearTransactions();
+          alert('All transactions have been permanently deleted.');
+          await renderPendingTransactions();
+        }
+      });
+    }
+  });
+
+  async function renderPendingTransactions() {
+    const pendingList = document.getElementById('pending-list');
+    const txs = (await getTransactions()).filter(t => t.status === 'Pending');
+    
+    pendingList.innerHTML = '';
+    
+    if (txs.length === 0) {
+      pendingList.innerHTML = '<p class="text-outline italic">No pending transfers at this time.</p>';
+      return;
+    }
+
+    txs.forEach(tx => {
+      const amountClass = 'text-on-surface';
+      const absAmount = formatCurrency(Math.abs(tx.amount));
+      
+      const el = document.createElement('div');
+      el.className = "flex flex-col md:flex-row md:items-center justify-between p-4 bg-surface-container-low rounded-lg border border-gray-200";
+      
+      el.innerHTML = `
+        <div class="flex items-center gap-4 mb-4 md:mb-0">
+          <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+            <span class="material-symbols-outlined notranslate" translate="no">sync</span>
+          </div>
+          <div>
+            <p class="font-semibold text-lg">${tx.payee} ${tx.account ? `(${tx.account})` : ''}</p>
+            <p class="text-sm text-outline">${tx.date} • Ref: ${tx.id}</p>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
+          <div class="text-right">
+            <p class="text-xl font-bold ${amountClass}">${absAmount}</p>
+            <p class="text-sm text-amber-600 font-semibold">Awaiting Review</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="handleApprove('${tx.id}')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm notranslate" translate="no">check</span> Approve
+            </button>
+            <button onclick="handleBlock('${tx.id}')" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm notranslate" translate="no">close</span> Block
+            </button>
+          </div>
+        </div>
+      `;
+      pendingList.appendChild(el);
+    });
+  }
+
+  async function handleApprove(id) {
+    if(confirm('Are you sure you want to approve this transfer?')) {
+      await updateTransactionStatus(id, 'Approved');
+      await renderPendingTransactions();
+    }
+  }
+
+  async function handleBlock(id) {
+    if(confirm('Are you sure you want to block this transfer?')) {
+      await updateTransactionStatus(id, 'Blocked');
+      await renderPendingTransactions();
+    }
+  }
+
+  window.handleApprove = handleApprove;
+  window.handleBlock = handleBlock;
+
+  async function loadProfileData() {
+    const p = await getProfile();
+    document.getElementById('prof-name').value = p.name;
+    document.getElementById('prof-dob').value = p.dob;
+    document.getElementById('prof-email').value = p.email;
+    document.getElementById('prof-phone').value = p.phone;
+    document.getElementById('prof-address').value = p.address;
+    const passes = await getPasswords();
+    document.getElementById('prof-user-pass').value = passes.userPass;
+    document.getElementById('prof-admin-pass').value = passes.adminPass;
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Init values
+    const financials = await getFinancials();
+    document.getElementById('admin-balance').value = Number(financials.balance).toFixed(2);
+    document.getElementById('admin-limit').value = Number(financials.limit).toFixed(2);
+    await loadProfileData();
+
+    // Bind listeners
+    document.getElementById('save-balance-btn').addEventListener('click', async () => {
+      const val = parseFloat(document.getElementById('admin-balance').value);
+      if(!isNaN(val)) {
+        const financials = await getFinancials();
+        await updateFinancials(val, Number(financials.limit));
+        alert('User balance updated to ' + formatCurrency(val));
+      }
+    });
+
+    document.getElementById('save-limit-btn').addEventListener('click', async () => {
+      const val = parseFloat(document.getElementById('admin-limit').value);
+      if(!isNaN(val)) {
+        const financials = await getFinancials();
+        await updateFinancials(Number(financials.balance), val);
+        alert('Max transfer limit updated to ' + formatCurrency(val));
+      }
+    });
+
+    document.getElementById('save-profile-btn').addEventListener('click', async () => {
+      const p = await getProfile();
+      p.name = document.getElementById('prof-name').value;
+      p.dob = document.getElementById('prof-dob').value;
+      p.email = document.getElementById('prof-email').value;
+      p.phone = document.getElementById('prof-phone').value;
+      p.address = document.getElementById('prof-address').value;
+      await setProfile(p);
+      
+      const uPass = document.getElementById('prof-user-pass').value;
+      const aPass = document.getElementById('prof-admin-pass').value;
+      await updatePasswords(uPass, aPass);
+      
+      alert('Profile and passwords updated successfully!');
+    });
+
+    // Initial render
+    await renderPendingTransactions();
+    
+    // Auto-refresh pending list every 5 seconds to catch auto-declines or new transfers
+    setInterval(() => {
+      renderPendingTransactions();
+    }, 5000);
+  });
+</script>
+
+
+<!-- Custom Translate Widget -->
+<div id="custom-translate-widget" class="notranslate" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif;">
+  <div id="translate-menu" style="display: none; position: absolute; bottom: 60px; right: 0; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 220px; max-height: 350px; overflow-y: auto; border: 1px solid #e1e2e4;">
+    <!-- Options injected by JS -->
+  </div>
+  <button id="translate-btn" style="width: 48px; height: 48px; border-radius: 50%; background: #004ac6; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    <span class="material-symbols-outlined notranslate" style="font-size: 24px; color: white;">translate</span>
+  </button>
+</div>
+
+<div id="google_translate_element" style="display: none;"></div>
+
+<style>
+/* Hide Google Translate Banner & native widget */
+.skiptranslate iframe { display: none !important; }
+body { top: 0 !important; }
+.goog-te-combo { display: none !important; }
+/* Scrollbar for menu */
+#translate-menu::-webkit-scrollbar { width: 6px; }
+#translate-menu::-webkit-scrollbar-track { background: transparent; }
+#translate-menu::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 4px; }
+.translate-option { padding: 12px 16px; cursor: pointer; color: #141b2b; transition: background 0.2s; font-size: 14px; display: flex; align-items: center; border-bottom: 1px solid #f1f3ff; }
+.translate-option:last-child { border-bottom: none; }
+.translate-option:hover { background: #f1f3ff; }
+.translate-option.active { background: #e9edff; color: #004ac6; font-weight: 600; }
+</style>
+
+<script type="text/javascript">
+  const languages = [
+    { code: 'af', name: 'Afrikaans' },
+    { code: 'sq', name: 'Albanian' },
+    { code: 'am', name: 'Amharic' },
+    { code: 'ar', name: 'Arabic' },
+    { code: 'hy', name: 'Armenian' },
+    { code: 'az', name: 'Azerbaijani' },
+    { code: 'eu', name: 'Basque' },
+    { code: 'be', name: 'Belarusian' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'bs', name: 'Bosnian' },
+    { code: 'bg', name: 'Bulgarian' },
+    { code: 'ca', name: 'Catalan' },
+    { code: 'ceb', name: 'Cebuano' },
+    { code: 'ny', name: 'Chichewa' },
+    { code: 'zh-CN', name: 'Chinese (Simplified)' },
+    { code: 'zh-TW', name: 'Chinese (Traditional)' },
+    { code: 'co', name: 'Corsican' },
+    { code: 'hr', name: 'Croatian' },
+    { code: 'cs', name: 'Czech' },
+    { code: 'da', name: 'Danish' },
+    { code: 'nl', name: 'Dutch' },
+    { code: 'en', name: 'English' },
+    { code: 'eo', name: 'Esperanto' },
+    { code: 'et', name: 'Estonian' },
+    { code: 'tl', name: 'Filipino' },
+    { code: 'fi', name: 'Finnish' },
+    { code: 'fr', name: 'French' },
+    { code: 'fy', name: 'Frisian' },
+    { code: 'gl', name: 'Galician' },
+    { code: 'ka', name: 'Georgian' },
+    { code: 'de', name: 'German' },
+    { code: 'el', name: 'Greek' },
+    { code: 'gu', name: 'Gujarati' },
+    { code: 'ht', name: 'Haitian Creole' },
+    { code: 'ha', name: 'Hausa' },
+    { code: 'haw', name: 'Hawaiian' },
+    { code: 'he', name: 'Hebrew' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'hmn', name: 'Hmong' },
+    { code: 'hu', name: 'Hungarian' },
+    { code: 'is', name: 'Icelandic' },
+    { code: 'ig', name: 'Igbo' },
+    { code: 'id', name: 'Indonesian' },
+    { code: 'ga', name: 'Irish' },
+    { code: 'it', name: 'Italian' },
+    { code: 'ja', name: 'Japanese' },
+    { code: 'jw', name: 'Javanese' },
+    { code: 'kn', name: 'Kannada' },
+    { code: 'kk', name: 'Kazakh' },
+    { code: 'km', name: 'Khmer' },
+    { code: 'rw', name: 'Kinyarwanda' },
+    { code: 'ko', name: 'Korean' },
+    { code: 'ku', name: 'Kurdish (Kurmanji)' },
+    { code: 'ky', name: 'Kyrgyz' },
+    { code: 'lo', name: 'Lao' },
+    { code: 'la', name: 'Latin' },
+    { code: 'lv', name: 'Latvian' },
+    { code: 'lt', name: 'Lithuanian' },
+    { code: 'lb', name: 'Luxembourgish' },
+    { code: 'mk', name: 'Macedonian' },
+    { code: 'mg', name: 'Malagasy' },
+    { code: 'ms', name: 'Malay' },
+    { code: 'ml', name: 'Malayalam' },
+    { code: 'mt', name: 'Maltese' },
+    { code: 'mi', name: 'Maori' },
+    { code: 'mr', name: 'Marathi' },
+    { code: 'mn', name: 'Mongolian' },
+    { code: 'my', name: 'Myanmar (Burmese)' },
+    { code: 'ne', name: 'Nepali' },
+    { code: 'no', name: 'Norwegian' },
+    { code: 'or', name: 'Odia (Oriya)' },
+    { code: 'ps', name: 'Pashto' },
+    { code: 'fa', name: 'Persian' },
+    { code: 'pl', name: 'Polish' },
+    { code: 'pt', name: 'Portuguese' },
+    { code: 'pa', name: 'Punjabi' },
+    { code: 'ro', name: 'Romanian' },
+    { code: 'ru', name: 'Russian' },
+    { code: 'sm', name: 'Samoan' },
+    { code: 'gd', name: 'Scots Gaelic' },
+    { code: 'sr', name: 'Serbian' },
+    { code: 'st', name: 'Sesotho' },
+    { code: 'sn', name: 'Shona' },
+    { code: 'sd', name: 'Sindhi' },
+    { code: 'si', name: 'Sinhala' },
+    { code: 'sk', name: 'Slovak' },
+    { code: 'sl', name: 'Slovenian' },
+    { code: 'so', name: 'Somali' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'su', name: 'Sundanese' },
+    { code: 'sw', name: 'Swahili' },
+    { code: 'sv', name: 'Swedish' },
+    { code: 'tg', name: 'Tajik' },
+    { code: 'ta', name: 'Tamil' },
+    { code: 'tt', name: 'Tatar' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'th', name: 'Thai' },
+    { code: 'tr', name: 'Turkish' },
+    { code: 'tk', name: 'Turkmen' },
+    { code: 'uk', name: 'Ukrainian' },
+    { code: 'ur', name: 'Urdu' },
+    { code: 'ug', name: 'Uyghur' },
+    { code: 'uz', name: 'Uzbek' },
+    { code: 'vi', name: 'Vietnamese' },
+    { code: 'cy', name: 'Welsh' },
+    { code: 'xh', name: 'Xhosa' },
+    { code: 'yi', name: 'Yiddish' },
+    { code: 'yo', name: 'Yoruba' },
+    { code: 'zu', name: 'Zulu' }
+  ];
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function setLanguage(langCode) {
+    document.cookie = "googtrans=/en/" + langCode + "; path=/;";
+    document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/;";
+    window.location.reload();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('translate-menu');
+    const btn = document.getElementById('translate-btn');
+    
+    let currentLang = 'en';
+    const cookie = getCookie('googtrans');
+    if (cookie) {
+      const parts = cookie.split('/');
+      if (parts.length > 2) currentLang = parts[2];
+    }
+
+    languages.forEach(lang => {
+      const div = document.createElement('div');
+      div.className = 'translate-option' + (currentLang === lang.code ? ' active' : '');
+      div.innerHTML = lang.name;
+      div.onclick = () => {
+        menu.style.display = 'none';
+        if (currentLang !== lang.code) setLanguage(lang.code);
+      };
+      menu.appendChild(div);
+    });
+
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  });
+
+  function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+          pageLanguage: 'en', 
+          autoDisplay: false
+      }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('ServiceWorker registration successful');
+      }).catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

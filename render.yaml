@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: trust-bank
+    env: node
+    rootDir: redesign
+    buildCommand: npm install -g pnpm && pnpm install && pnpm build
+    startCommand: pnpm start
+    plan: free
+    autoDeploy: true

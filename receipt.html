@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+  body {
+    background-color: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    font-family: 'Courier Prime', monospace;
+  }
+  .receipt {
+    background: #fff;
+    padding: 2rem;
+    width: 380px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    color: #1f2937;
+  }
+  .header {
+    text-align: center;
+    border-bottom: 2px dashed #9ca3af;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  .header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  .header p {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.875rem;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+  .divider {
+    border-top: 1px dashed #9ca3af;
+    margin: 1rem 0;
+  }
+  .total {
+    font-weight: bold;
+    font-size: 1.125rem;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  .print-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-family: sans-serif;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  @media print {
+    body { background: none; padding: 0; }
+    .receipt { box-shadow: none; border: none; }
+    .print-btn { display: none; }
+  }
+</style>
+
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<div class="receipt">
+  <div class="header">
+    <h1>TRUST BANK</h1>
+    <p>Transaction Receipt</p>
+  </div>
+  
+  <div id="receipt-content">
+    Loading...
+  </div>
+
+  <button class="print-btn" onclick="window.print()">Print Receipt</button>
+  <a href="dashboard.html" class="print-btn" style="background: #374151; margin-top: 0.5rem;">Back to Dashboard</a>
+</div>
+
+<script type="module">
+  import { formatCurrency, getTransaction } from './app.js';
+
+  async function renderReceipt() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const tx = await getTransaction(id);
+    
+    const content = document.getElementById('receipt-content');
+    
+    if (!tx) {
+      content.innerHTML = '<p>Transaction not found.</p>';
+      return;
+    }
+    
+    const absAmount = formatCurrency(Math.abs(tx.amount));
+    const ref = tx.id.toUpperCase();
+    
+    let statusHtml = `<span>${tx.status.toUpperCase()}</span>`;
+    
+    if (tx.status === 'Pending') {
+      statusHtml = `<span style="color: #d97706; font-weight: bold;">AWAITING APPROVAL <span id="dots">...</span></span>`;
+    } else if (tx.status === 'Declined') {
+      statusHtml = `<span style="color: #dc2626; font-weight: bold;">DECLINED</span>
+        <div style="margin-top: 10px; padding: 10px; background: #fee2e2; color: #991b1b; border: 1px solid #f87171; border-radius: 4px; text-align: center;">
+          Transfer failed. Please go to Customer Care to resolve this issue. <br>
+          <a href="chat.html" style="color: #991b1b; text-decoration: underline; font-weight: bold;">Contact Customer Care</a>
+        </div>`;
+    } else if (tx.status === 'Approved') {
+      statusHtml = `<span style="color: #16a34a; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.2rem; margin-top: 10px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> TRANSACTION SUCCESSFUL</span>`;
+    }
+
+    content.innerHTML = `
+      <div class="row">
+        <span>Date:</span>
+        <span>${tx.date}</span>
+      </div>
+      <div class="row">
+        <span>Ref No:</span>
+        <span>${ref}</span>
+      </div>
+      <div class="row">
+        <span>Type:</span>
+        <span>FASTER PAYMENTS OUT</span>
+      </div>
+      <div class="divider"></div>
+      
+      <div class="row">
+        <span>Payee:</span>
+        <span>${tx.payee}</span>
+      </div>
+      <div class="row">
+        <span>Account No:</span>
+        <span>${tx.account || '****' + Math.floor(1000 + Math.random()*9000)}</span>
+      </div>
+      <div class="row">
+        <span>Sort Code:</span>
+        <span>20-45-14</span>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="row total">
+        <span>AMOUNT:</span>
+        <span>${absAmount}</span>
+      </div>
+      
+      <div class="row mt-2" style="margin-top: 1rem; flex-direction: column;">
+        <span style="margin-bottom: 5px;">Status:</span>
+        ${statusHtml}
+      </div>
+      
+      <div class="footer">
+        <p>Thank you for banking with Trust Bank.</p>
+        <p>This is a computer generated receipt.</p>
+      </div>
+    `;
+
+    // Only set up interval if it's pending
+    if (tx.status === 'Pending') {
+      setTimeout(renderReceipt, 2000); // Check every 2 seconds
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderReceipt();
+    
+    // Animate dots if waiting
+    setInterval(() => {
+      const dots = document.getElementById('dots');
+      if (dots) {
+        if (dots.innerText.length >= 3) dots.innerText = '';
+        else dots.innerText += '.';
+      }
+    }, 500);
+  });
+</script>
+
+
+<!-- Custom Translate Widget -->
+<div id="custom-translate-widget" class="notranslate" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif;">
+  <div id="translate-menu" style="display: none; position: absolute; bottom: 60px; right: 0; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 220px; max-height: 350px; overflow-y: auto; border: 1px solid #e1e2e4;">
+    <!-- Options injected by JS -->
+  </div>
+  <button id="translate-btn" style="width: 48px; height: 48px; border-radius: 50%; background: #004ac6; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    <span class="material-symbols-outlined notranslate" style="font-size: 24px; color: white;">translate</span>
+  </button>
+</div>
+
+<div id="google_translate_element" style="display: none;"></div>
+
+<style>
+/* Hide Google Translate Banner & native widget */
+.skiptranslate iframe { display: none !important; }
+body { top: 0 !important; }
+.goog-te-combo { display: none !important; }
+/* Scrollbar for menu */
+#translate-menu::-webkit-scrollbar { width: 6px; }
+#translate-menu::-webkit-scrollbar-track { background: transparent; }
+#translate-menu::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 4px; }
+.translate-option { padding: 12px 16px; cursor: pointer; color: #141b2b; transition: background 0.2s; font-size: 14px; display: flex; align-items: center; border-bottom: 1px solid #f1f3ff; }
+.translate-option:last-child { border-bottom: none; }
+.translate-option:hover { background: #f1f3ff; }
+.translate-option.active { background: #e9edff; color: #004ac6; font-weight: 600; }
+</style>
+
+<script type="text/javascript">
+  const languages = [
+    { code: 'af', name: 'Afrikaans' },
+    { code: 'sq', name: 'Albanian' },
+    { code: 'am', name: 'Amharic' },
+    { code: 'ar', name: 'Arabic' },
+    { code: 'hy', name: 'Armenian' },
+    { code: 'az', name: 'Azerbaijani' },
+    { code: 'eu', name: 'Basque' },
+    { code: 'be', name: 'Belarusian' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'bs', name: 'Bosnian' },
+    { code: 'bg', name: 'Bulgarian' },
+    { code: 'ca', name: 'Catalan' },
+    { code: 'ceb', name: 'Cebuano' },
+    { code: 'ny', name: 'Chichewa' },
+    { code: 'zh-CN', name: 'Chinese (Simplified)' },
+    { code: 'zh-TW', name: 'Chinese (Traditional)' },
+    { code: 'co', name: 'Corsican' },
+    { code: 'hr', name: 'Croatian' },
+    { code: 'cs', name: 'Czech' },
+    { code: 'da', name: 'Danish' },
+    { code: 'nl', name: 'Dutch' },
+    { code: 'en', name: 'English' },
+    { code: 'eo', name: 'Esperanto' },
+    { code: 'et', name: 'Estonian' },
+    { code: 'tl', name: 'Filipino' },
+    { code: 'fi', name: 'Finnish' },
+    { code: 'fr', name: 'French' },
+    { code: 'fy', name: 'Frisian' },
+    { code: 'gl', name: 'Galician' },
+    { code: 'ka', name: 'Georgian' },
+    { code: 'de', name: 'German' },
+    { code: 'el', name: 'Greek' },
+    { code: 'gu', name: 'Gujarati' },
+    { code: 'ht', name: 'Haitian Creole' },
+    { code: 'ha', name: 'Hausa' },
+    { code: 'haw', name: 'Hawaiian' },
+    { code: 'he', name: 'Hebrew' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'hmn', name: 'Hmong' },
+    { code: 'hu', name: 'Hungarian' },
+    { code: 'is', name: 'Icelandic' },
+    { code: 'ig', name: 'Igbo' },
+    { code: 'id', name: 'Indonesian' },
+    { code: 'ga', name: 'Irish' },
+    { code: 'it', name: 'Italian' },
+    { code: 'ja', name: 'Japanese' },
+    { code: 'jw', name: 'Javanese' },
+    { code: 'kn', name: 'Kannada' },
+    { code: 'kk', name: 'Kazakh' },
+    { code: 'km', name: 'Khmer' },
+    { code: 'rw', name: 'Kinyarwanda' },
+    { code: 'ko', name: 'Korean' },
+    { code: 'ku', name: 'Kurdish (Kurmanji)' },
+    { code: 'ky', name: 'Kyrgyz' },
+    { code: 'lo', name: 'Lao' },
+    { code: 'la', name: 'Latin' },
+    { code: 'lv', name: 'Latvian' },
+    { code: 'lt', name: 'Lithuanian' },
+    { code: 'lb', name: 'Luxembourgish' },
+    { code: 'mk', name: 'Macedonian' },
+    { code: 'mg', name: 'Malagasy' },
+    { code: 'ms', name: 'Malay' },
+    { code: 'ml', name: 'Malayalam' },
+    { code: 'mt', name: 'Maltese' },
+    { code: 'mi', name: 'Maori' },
+    { code: 'mr', name: 'Marathi' },
+    { code: 'mn', name: 'Mongolian' },
+    { code: 'my', name: 'Myanmar (Burmese)' },
+    { code: 'ne', name: 'Nepali' },
+    { code: 'no', name: 'Norwegian' },
+    { code: 'or', name: 'Odia (Oriya)' },
+    { code: 'ps', name: 'Pashto' },
+    { code: 'fa', name: 'Persian' },
+    { code: 'pl', name: 'Polish' },
+    { code: 'pt', name: 'Portuguese' },
+    { code: 'pa', name: 'Punjabi' },
+    { code: 'ro', name: 'Romanian' },
+    { code: 'ru', name: 'Russian' },
+    { code: 'sm', name: 'Samoan' },
+    { code: 'gd', name: 'Scots Gaelic' },
+    { code: 'sr', name: 'Serbian' },
+    { code: 'st', name: 'Sesotho' },
+    { code: 'sn', name: 'Shona' },
+    { code: 'sd', name: 'Sindhi' },
+    { code: 'si', name: 'Sinhala' },
+    { code: 'sk', name: 'Slovak' },
+    { code: 'sl', name: 'Slovenian' },
+    { code: 'so', name: 'Somali' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'su', name: 'Sundanese' },
+    { code: 'sw', name: 'Swahili' },
+    { code: 'sv', name: 'Swedish' },
+    { code: 'tg', name: 'Tajik' },
+    { code: 'ta', name: 'Tamil' },
+    { code: 'tt', name: 'Tatar' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'th', name: 'Thai' },
+    { code: 'tr', name: 'Turkish' },
+    { code: 'tk', name: 'Turkmen' },
+    { code: 'uk', name: 'Ukrainian' },
+    { code: 'ur', name: 'Urdu' },
+    { code: 'ug', name: 'Uyghur' },
+    { code: 'uz', name: 'Uzbek' },
+    { code: 'vi', name: 'Vietnamese' },
+    { code: 'cy', name: 'Welsh' },
+    { code: 'xh', name: 'Xhosa' },
+    { code: 'yi', name: 'Yiddish' },
+    { code: 'yo', name: 'Yoruba' },
+    { code: 'zu', name: 'Zulu' }
+  ];
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function setLanguage(langCode) {
+    document.cookie = "googtrans=/en/" + langCode + "; path=/;";
+    document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/;";
+    window.location.reload();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('translate-menu');
+    const btn = document.getElementById('translate-btn');
+    
+    let currentLang = 'en';
+    const cookie = getCookie('googtrans');
+    if (cookie) {
+      const parts = cookie.split('/');
+      if (parts.length > 2) currentLang = parts[2];
+    }
+
+    languages.forEach(lang => {
+      const div = document.createElement('div');
+      div.className = 'translate-option' + (currentLang === lang.code ? ' active' : '');
+      div.innerHTML = lang.name;
+      div.onclick = () => {
+        menu.style.display = 'none';
+        if (currentLang !== lang.code) setLanguage(lang.code);
+      };
+      menu.appendChild(div);
+    });
+
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  });
+
+  function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+          pageLanguage: 'en', 
+          autoDisplay: false
+      }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('ServiceWorker registration successful');
+      }).catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

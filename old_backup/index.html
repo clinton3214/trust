@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Bank - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { 
+      theme: { 
+        extend: { 
+          colors: { 
+            "surface": "#f9f9ff", 
+            "on-surface": "#141b2b", 
+            "primary": "#004ac6",
+            "primary-container": "#2563eb",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f1f3ff",
+            "outline": "#737686"
+          },
+          fontFamily: {
+            "body-md": ["Manrope"],
+            "headline-lg": ["Manrope"]
+          }
+        } 
+      } 
+    };
+  </script>
+
+<link rel="manifest" href="manifest.json">
+</head>
+<body class="bg-surface font-body-md text-on-surface h-screen flex items-center justify-center antialiased">
+  <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center">
+    <div class="w-16 h-16 mx-auto rounded-lg bg-primary-container flex items-center justify-center mb-6">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+    </div>
+    <h1 class="text-2xl font-bold font-headline-lg mb-2">Welcome to Trust Bank</h1>
+    <p class="text-outline mb-8">Sign in to your account</p>
+    
+    <form id="loginForm" class="flex flex-col gap-4 text-left">
+      <div id="errorMsg" class="hidden text-red-500 text-sm mb-2 text-center">Invalid credentials</div>
+      
+      <div>
+        <label class="block text-sm font-semibold mb-1 text-outline">Username</label>
+        <input type="text" id="emailInput" required class="w-full p-3 rounded-lg border border-gray-200 outline-none focus:border-primary">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold mb-1 text-outline">Password</label>
+        <input type="password" id="passwordInput" required class="w-full p-3 rounded-lg border border-gray-200 outline-none focus:border-primary">
+      </div>
+      
+      <button type="submit" class="w-full bg-primary hover:bg-primary-container text-white font-semibold p-3 rounded-lg transition mt-2">Sign In</button>
+    </form>
+  </div>
+
+  <!-- FIREBASE MODULE CONNECTION -->
+  <script type="module">
+    import { initializeState } from './app.js';
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+    // Initialize using app.js module
+    await initializeState();
+    const app = getApps()[0];
+    const db = getFirestore(app);
+    const dbRef = doc(db, "app_state", "global_data");
+
+    // Verify submission against online Firebase document
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value;
+      const pass = document.getElementById('passwordInput').value;
+      const errorMsg = document.getElementById('errorMsg');
+
+      try {
+        const docSnap = await getDoc(dbRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          
+          if (email === data.tb_admin_email && pass === data.tb_admin_pass) {
+            window.location.href = 'admin.html';
+          } else if (email === data.tb_user_email && pass === data.tb_user_pass) {
+            window.location.href = 'dashboard.html';
+          } else {
+            errorMsg.classList.remove('hidden');
+          }
+        }
+      } catch (err) {
+        console.error("Connection failure:", err);
+        alert("Unable to process request. Check internet access or Firebase rules setup.");
+      }
+    });
+  </script>
+
+
+<!-- Custom Translate Widget -->
+<div id="custom-translate-widget" class="notranslate" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: sans-serif;">
+  <div id="translate-menu" style="display: none; position: absolute; bottom: 60px; right: 0; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 220px; max-height: 350px; overflow-y: auto; border: 1px solid #e1e2e4;">
+    <!-- Options injected by JS -->
+  </div>
+  <button id="translate-btn" style="width: 48px; height: 48px; border-radius: 50%; background: #004ac6; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    <span class="material-symbols-outlined notranslate" style="font-size: 24px; color: white;">translate</span>
+  </button>
+</div>
+
+<div id="google_translate_element" style="display: none;"></div>
+
+<style>
+/* Hide Google Translate Banner & native widget */
+.skiptranslate iframe { display: none !important; }
+body { top: 0 !important; }
+.goog-te-combo { display: none !important; }
+/* Scrollbar for menu */
+#translate-menu::-webkit-scrollbar { width: 6px; }
+#translate-menu::-webkit-scrollbar-track { background: transparent; }
+#translate-menu::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 4px; }
+.translate-option { padding: 12px 16px; cursor: pointer; color: #141b2b; transition: background 0.2s; font-size: 14px; display: flex; align-items: center; border-bottom: 1px solid #f1f3ff; }
+.translate-option:last-child { border-bottom: none; }
+.translate-option:hover { background: #f1f3ff; }
+.translate-option.active { background: #e9edff; color: #004ac6; font-weight: 600; }
+</style>
+
+<script type="text/javascript">
+  const languages = [
+    { code: 'af', name: 'Afrikaans' },
+    { code: 'sq', name: 'Albanian' },
+    { code: 'am', name: 'Amharic' },
+    { code: 'ar', name: 'Arabic' },
+    { code: 'hy', name: 'Armenian' },
+    { code: 'az', name: 'Azerbaijani' },
+    { code: 'eu', name: 'Basque' },
+    { code: 'be', name: 'Belarusian' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'bs', name: 'Bosnian' },
+    { code: 'bg', name: 'Bulgarian' },
+    { code: 'ca', name: 'Catalan' },
+    { code: 'ceb', name: 'Cebuano' },
+    { code: 'ny', name: 'Chichewa' },
+    { code: 'zh-CN', name: 'Chinese (Simplified)' },
+    { code: 'zh-TW', name: 'Chinese (Traditional)' },
+    { code: 'co', name: 'Corsican' },
+    { code: 'hr', name: 'Croatian' },
+    { code: 'cs', name: 'Czech' },
+    { code: 'da', name: 'Danish' },
+    { code: 'nl', name: 'Dutch' },
+    { code: 'en', name: 'English' },
+    { code: 'eo', name: 'Esperanto' },
+    { code: 'et', name: 'Estonian' },
+    { code: 'tl', name: 'Filipino' },
+    { code: 'fi', name: 'Finnish' },
+    { code: 'fr', name: 'French' },
+    { code: 'fy', name: 'Frisian' },
+    { code: 'gl', name: 'Galician' },
+    { code: 'ka', name: 'Georgian' },
+    { code: 'de', name: 'German' },
+    { code: 'el', name: 'Greek' },
+    { code: 'gu', name: 'Gujarati' },
+    { code: 'ht', name: 'Haitian Creole' },
+    { code: 'ha', name: 'Hausa' },
+    { code: 'haw', name: 'Hawaiian' },
+    { code: 'he', name: 'Hebrew' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'hmn', name: 'Hmong' },
+    { code: 'hu', name: 'Hungarian' },
+    { code: 'is', name: 'Icelandic' },
+    { code: 'ig', name: 'Igbo' },
+    { code: 'id', name: 'Indonesian' },
+    { code: 'ga', name: 'Irish' },
+    { code: 'it', name: 'Italian' },
+    { code: 'ja', name: 'Japanese' },
+    { code: 'jw', name: 'Javanese' },
+    { code: 'kn', name: 'Kannada' },
+    { code: 'kk', name: 'Kazakh' },
+    { code: 'km', name: 'Khmer' },
+    { code: 'rw', name: 'Kinyarwanda' },
+    { code: 'ko', name: 'Korean' },
+    { code: 'ku', name: 'Kurdish (Kurmanji)' },
+    { code: 'ky', name: 'Kyrgyz' },
+    { code: 'lo', name: 'Lao' },
+    { code: 'la', name: 'Latin' },
+    { code: 'lv', name: 'Latvian' },
+    { code: 'lt', name: 'Lithuanian' },
+    { code: 'lb', name: 'Luxembourgish' },
+    { code: 'mk', name: 'Macedonian' },
+    { code: 'mg', name: 'Malagasy' },
+    { code: 'ms', name: 'Malay' },
+    { code: 'ml', name: 'Malayalam' },
+    { code: 'mt', name: 'Maltese' },
+    { code: 'mi', name: 'Maori' },
+    { code: 'mr', name: 'Marathi' },
+    { code: 'mn', name: 'Mongolian' },
+    { code: 'my', name: 'Myanmar (Burmese)' },
+    { code: 'ne', name: 'Nepali' },
+    { code: 'no', name: 'Norwegian' },
+    { code: 'or', name: 'Odia (Oriya)' },
+    { code: 'ps', name: 'Pashto' },
+    { code: 'fa', name: 'Persian' },
+    { code: 'pl', name: 'Polish' },
+    { code: 'pt', name: 'Portuguese' },
+    { code: 'pa', name: 'Punjabi' },
+    { code: 'ro', name: 'Romanian' },
+    { code: 'ru', name: 'Russian' },
+    { code: 'sm', name: 'Samoan' },
+    { code: 'gd', name: 'Scots Gaelic' },
+    { code: 'sr', name: 'Serbian' },
+    { code: 'st', name: 'Sesotho' },
+    { code: 'sn', name: 'Shona' },
+    { code: 'sd', name: 'Sindhi' },
+    { code: 'si', name: 'Sinhala' },
+    { code: 'sk', name: 'Slovak' },
+    { code: 'sl', name: 'Slovenian' },
+    { code: 'so', name: 'Somali' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'su', name: 'Sundanese' },
+    { code: 'sw', name: 'Swahili' },
+    { code: 'sv', name: 'Swedish' },
+    { code: 'tg', name: 'Tajik' },
+    { code: 'ta', name: 'Tamil' },
+    { code: 'tt', name: 'Tatar' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'th', name: 'Thai' },
+    { code: 'tr', name: 'Turkish' },
+    { code: 'tk', name: 'Turkmen' },
+    { code: 'uk', name: 'Ukrainian' },
+    { code: 'ur', name: 'Urdu' },
+    { code: 'ug', name: 'Uyghur' },
+    { code: 'uz', name: 'Uzbek' },
+    { code: 'vi', name: 'Vietnamese' },
+    { code: 'cy', name: 'Welsh' },
+    { code: 'xh', name: 'Xhosa' },
+    { code: 'yi', name: 'Yiddish' },
+    { code: 'yo', name: 'Yoruba' },
+    { code: 'zu', name: 'Zulu' }
+  ];
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function setLanguage(langCode) {
+    document.cookie = "googtrans=/en/" + langCode + "; path=/;";
+    document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/;";
+    window.location.reload();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('translate-menu');
+    const btn = document.getElementById('translate-btn');
+    
+    let currentLang = 'en';
+    const cookie = getCookie('googtrans');
+    if (cookie) {
+      const parts = cookie.split('/');
+      if (parts.length > 2) currentLang = parts[2];
+    }
+
+    languages.forEach(lang => {
+      const div = document.createElement('div');
+      div.className = 'translate-option' + (currentLang === lang.code ? ' active' : '');
+      div.innerHTML = lang.name;
+      div.onclick = () => {
+        menu.style.display = 'none';
+        if (currentLang !== lang.code) setLanguage(lang.code);
+      };
+      menu.appendChild(div);
+    });
+
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  });
+
+  function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+          pageLanguage: 'en', 
+          autoDisplay: false
+      }, 'google_translate_element');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('ServiceWorker registration successful');
+      }).catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
