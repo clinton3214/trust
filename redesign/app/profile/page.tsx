@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { 
   Camera, 
   Eye, 
@@ -13,8 +12,7 @@ import {
   Phone, 
   MapPin, 
   Calendar, 
-  CreditCard,
-  Settings
+  CreditCard
 } from 'lucide-react'
 import { getProfile, setProfile, UserProfile, defaultProfile } from '@/lib/firebase'
 import Header from '@/components/Header'
@@ -222,14 +220,6 @@ export default function ProfilePage() {
 
         {/* Action Buttons */}
         <section className="px-5 space-y-3">
-          <Link
-            href="/admin"
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white border border-[#e5e7eb] py-3.5 text-sm font-bold text-[#111827] shadow-sm hover:bg-gray-50 transition"
-          >
-            <Settings size={18} />
-            <span>Open Admin Dashboard</span>
-          </Link>
-
           <button
             onClick={handleLogout}
             className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 border border-red-200 py-3.5 text-sm font-bold text-red-600 shadow-sm hover:bg-red-100 transition"

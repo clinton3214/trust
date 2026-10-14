@@ -59,8 +59,8 @@ export default function LoginPage() {
           
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="grid size-11 place-items-center rounded-2xl bg-white/10 text-base font-extrabold text-white backdrop-blur-md">
-                TB
+              <div className="grid size-12 place-items-center rounded-2xl bg-white/10 p-2 backdrop-blur-md">
+                <img src="/logo-icon.png" alt="TrustBank" className="size-full object-contain" />
               </div>
               <div>
                 <span className="text-xl font-bold tracking-tight">TrustBank</span>

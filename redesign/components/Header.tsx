@@ -24,10 +24,10 @@ export default function Header({ title, showBack = false, backHref = '/' }: Head
         ) : (
           <Link 
             href="/"
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-2"
           >
-            <div className="grid size-9 place-items-center rounded-xl bg-[#152238] text-sm font-extrabold text-white">TB</div>
-            <span className="text-[15px] font-bold tracking-[-0.02em]">TrustBank</span>
+            <img src="/logo-icon.png" alt="TrustBank" className="size-8 object-contain" />
+            <span className="text-[16px] font-bold tracking-[-0.02em] text-[#111827]">TrustBank</span>
           </Link>
         )}
 

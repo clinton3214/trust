@@ -50,8 +50,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen bg-[#f5f7fb] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="grid size-12 place-items-center rounded-2xl bg-[#152238] text-base font-extrabold text-white shadow-md animate-pulse">
-            TB
+          <div className="grid size-14 place-items-center rounded-2xl bg-white p-2.5 shadow-md animate-pulse">
+            <img src="/logo-icon.png" alt="TrustBank" className="size-full object-contain" />
           </div>
           <div className="size-6 animate-spin rounded-full border-2 border-[#152238] border-t-transparent" />
         </div>

@@ -198,8 +198,8 @@ export default function AdminPage() {
         {/* Top Header */}
         <div className="flex items-center justify-between rounded-[28px] bg-[#152238] p-6 text-white shadow-lg">
           <div className="flex items-center gap-3.5">
-            <div className="grid size-12 place-items-center rounded-2xl bg-red-600/90 text-white shadow-md">
-              <ShieldAlert size={24} />
+            <div className="grid size-12 place-items-center rounded-2xl bg-white/10 p-1.5 shadow-md backdrop-blur-md">
+              <img src="/logo-icon.png" alt="TrustBank" className="size-full object-contain" />
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tight">TrustBank Admin Control</h1>

@@ -85,8 +85,8 @@ function ReceiptContent() {
         
         {/* Top Logo */}
         <div className="text-center pb-6 border-b border-dashed border-[#e5e7eb]">
-          <div className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#152238] text-sm font-extrabold text-white mb-2">
-            TB
+          <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#f5f7fb] p-2.5 mb-2 shadow-sm">
+            <img src="/logo-icon.png" alt="TrustBank" className="size-full object-contain" />
           </div>
           <h1 className="text-lg font-bold tracking-tight text-[#111827]">TRUST BANK</h1>
           <p className="text-xs text-[#8c98aa]">Official Electronic Transaction Receipt</p>

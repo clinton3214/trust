@@ -114,9 +114,9 @@ export default function HomePage() {
               <Menu size={22} strokeWidth={2.2} />
             </button>
             
-            <div className="flex items-center gap-2.5">
-              <div className="grid size-9 place-items-center rounded-xl bg-[#152238] text-sm font-extrabold text-white">TB</div>
-              <span className="text-[15px] font-bold tracking-[-0.02em]">TrustBank</span>
+            <div className="flex items-center gap-2">
+              <img src="/logo-icon.png" alt="TrustBank" className="size-8 object-contain" />
+              <span className="text-[16px] font-bold tracking-[-0.02em] text-[#111827]">TrustBank</span>
             </div>
             
             <Link 
