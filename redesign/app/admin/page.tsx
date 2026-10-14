@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { 
@@ -13,6 +13,8 @@ import {
   MessageSquare, 
   Trash2, 
   Check, 
+  CheckCircle2,
+  AlertCircle,
   X, 
   LogOut,
   RefreshCw,
@@ -57,13 +59,28 @@ export default function AdminPage() {
   // Pending transactions
   const [pendingTxs, setPendingTxs] = useState<Transaction[]>([])
   
-  // Status message
-  const [statusMsg, setStatusMsg] = useState('')
+  // Beautiful Notification state
+  const [notification, setNotification] = useState<{
+    show: boolean
+    title: string
+    message: string
+    type: 'success' | 'error' | 'info'
+  }>({ show: false, title: '', message: '', type: 'success' })
+  const notificationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const showNotification = (msg: string) => {
-    setStatusMsg(msg)
-    setTimeout(() => setStatusMsg(''), 4000)
+  const showNotification = (
+    msg: string,
+    title = 'Successfully Changed',
+    type: 'success' | 'error' | 'info' = 'success'
+  ) => {
+    if (notificationTimeoutRef.current) {
+      clearTimeout(notificationTimeoutRef.current)
+    }
+    setNotification({ show: true, title, message: msg, type })
+    notificationTimeoutRef.current = setTimeout(() => {
+      setNotification((prev) => ({ ...prev, show: false }))
+    }, 4500)
   }
 
   const loadAllData = async () => {
@@ -106,25 +123,25 @@ export default function AdminPage() {
     const b = parseFloat(balanceInput)
     const l = parseFloat(limitInput)
     if (isNaN(b) || isNaN(l)) {
-      showNotification('Please enter valid numeric amounts.')
+      showNotification('Please enter valid numeric amounts for balance and limits.', 'Invalid Input', 'error')
       return
     }
     await updateFinancials(b, l)
-    showNotification('Balance and transaction limits updated successfully!')
+    showNotification('User liquid balance and transfer limits have been successfully updated.', 'Financials Saved')
   }
 
   // Save profile modifications
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault()
     await setProfile(profile)
-    showNotification('User profile details updated successfully!')
+    showNotification('User profile details have been successfully saved.', 'Profile Saved')
   }
 
   // Save security credentials (passwords + 4-digit PIN)
   const handleSaveCredentials = async (e: React.FormEvent) => {
     e.preventDefault()
     if (transferPin.length !== 4 || !/^\d{4}$/.test(transferPin)) {
-      showNotification('Security PIN must be exactly 4 digits.')
+      showNotification('Security PIN must be exactly 4 digits.', 'PIN Error', 'error')
       return
     }
     await updateSecurityCredentials({
@@ -134,14 +151,14 @@ export default function AdminPage() {
       adminPass,
       transferPin
     })
-    showNotification('All passwords and 4-digit PIN updated successfully!')
+    showNotification('Login credentials and 4-digit security PIN have been successfully updated.', 'Credentials Saved')
   }
 
   // Transaction decisions
   const handleApprove = async (id: string) => {
     if (confirm('Approve this transfer and deduct amount from user balance?')) {
       await updateTransactionStatus(id, 'Approved')
-      showNotification('Transfer approved and balance updated!')
+      showNotification('Transfer approved successfully and user balance updated.', 'Transfer Approved')
     }
   }
 
@@ -149,26 +166,28 @@ export default function AdminPage() {
     const reason = prompt('Enter a reason or note for blocking this transfer (optional):', 'Security verification required')
     if (reason !== null) {
       await updateTransactionStatus(id, 'Blocked', reason)
-      showNotification('Transfer blocked.')
+      showNotification('Transfer has been successfully blocked.', 'Transfer Blocked', 'info')
     }
   }
 
   const handleClearTransactions = async () => {
     if (confirm('Are you sure you want to permanently delete all transactions?')) {
       await clearTransactions()
-      showNotification('All transactions wiped.')
+      showNotification('All transaction logs have been successfully wiped.', 'Transactions Cleared')
     }
   }
 
   const handleClearChat = async () => {
     if (confirm('Are you sure you want to permanently clear all support messages?')) {
       await clearMessages()
-      showNotification('All chat messages wiped.')
+      showNotification('All support chat messages have been successfully wiped.', 'Chat Cleared')
     }
   }
 
   const handleLogout = () => {
     sessionStorage.removeItem('tb_auth_role')
+    localStorage.removeItem('tb_auth_role')
+    document.cookie = 'tb_auth_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
     router.push('/login')
   }
 
@@ -207,12 +226,96 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Global Alert Notification */}
-        {statusMsg && (
-          <div className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-xs font-bold text-emerald-800 shadow-sm animate-in fade-in">
-            {statusMsg}
+        {/* Beautiful Floating Notification Toast */}
+        <div
+          className={`fixed top-6 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100%-32px)] max-w-md transition-all duration-300 ease-out ${
+            notification.show
+              ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+              : 'opacity-0 -translate-y-5 scale-95 pointer-events-none'
+          }`}
+          role="alert"
+          aria-live="assertive"
+        >
+          <div className="relative overflow-hidden rounded-2xl bg-[#0f172a] p-4 text-white shadow-[0_20px_50px_rgba(0,0,0,0.45),0_0_25px_rgba(16,185,129,0.2)] border border-emerald-500/40 backdrop-blur-xl">
+            {/* Ambient Background Glow */}
+            <div className="absolute -left-10 -top-10 size-28 rounded-full bg-emerald-500/20 blur-2xl pointer-events-none" />
+
+            <div className="relative flex items-start gap-3.5">
+              {/* Icon Badge */}
+              <div
+                className={`grid size-10 shrink-0 place-items-center rounded-xl border shadow-inner ${
+                  notification.type === 'error'
+                    ? 'bg-rose-500/20 text-rose-400 border-rose-500/40'
+                    : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                }`}
+              >
+                {notification.type === 'error' ? (
+                  <AlertCircle size={20} strokeWidth={2.4} />
+                ) : (
+                  <CheckCircle2 size={20} strokeWidth={2.4} />
+                )}
+              </div>
+
+              {/* Text Information */}
+              <div className="flex-1 pt-0.5 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h4 className="text-sm font-bold text-white tracking-tight">
+                    {notification.title || 'Successfully Changed'}
+                  </h4>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider border ${
+                      notification.type === 'error'
+                        ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                        : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                    }`}
+                  >
+                    {notification.type === 'error' ? 'Notice' : 'Success'}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-[#cbd5e1] leading-relaxed">
+                  {notification.message}
+                </p>
+              </div>
+
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setNotification((prev) => ({ ...prev, show: false }))}
+                className="shrink-0 rounded-lg p-1 text-slate-400 hover:bg-white/10 hover:text-white transition"
+                aria-label="Close notification"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Countdown Progress Bar */}
+            {notification.show && (
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 overflow-hidden">
+                <div
+                  className={`h-full ${
+                    notification.type === 'error'
+                      ? 'bg-gradient-to-r from-rose-500 to-amber-500'
+                      : 'bg-gradient-to-r from-emerald-400 to-[#47d8c7]'
+                  }`}
+                  style={{
+                    animation: 'adminToastBar 4.5s linear forwards',
+                  }}
+                />
+              </div>
+            )}
           </div>
-        )}
+        </div>
+
+        <style jsx>{`
+          @keyframes adminToastBar {
+            from {
+              width: 100%;
+            }
+            to {
+              width: 0%;
+            }
+          }
+        `}</style>
 
         {/* Financial Balances Section */}
         <div className="rounded-[28px] bg-white p-6 shadow-[0_5px_20px_rgba(54,71,102,0.05)]">

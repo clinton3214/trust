@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { Lock, User, ArrowRight, ShieldCheck } from 'lucide-react'
 import { getPasswords, initializeState } from '@/lib/firebase'
 
@@ -27,12 +26,16 @@ export default function LoginPage() {
 
       if (inputId.toLowerCase() === (creds.adminEmail || '').toLowerCase() && inputPass === creds.adminPass) {
         sessionStorage.setItem('tb_auth_role', 'admin')
+        localStorage.setItem('tb_auth_role', 'admin')
+        document.cookie = 'tb_auth_role=admin; path=/; max-age=86400; SameSite=Lax'
         router.push('/admin')
       } else if (
         (inputId.toLowerCase() === (creds.userEmail || '').toLowerCase() || inputId.toLowerCase() === 'user@com') &&
         inputPass === creds.userPass
       ) {
         sessionStorage.setItem('tb_auth_role', 'user')
+        localStorage.setItem('tb_auth_role', 'user')
+        document.cookie = 'tb_auth_role=user; path=/; max-age=86400; SameSite=Lax'
         router.push('/')
       } else {
         setError('Invalid username or password. Please check your credentials.')
@@ -133,9 +136,10 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-7 text-center">
-            <Link href="/" className="text-xs font-semibold text-[#635bdf] hover:underline">
-              Enter demo workspace as guest →
-            </Link>
+            <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-[#8c98aa]">
+              <ShieldCheck size={15} className="text-[#10b981]" />
+              <span>Protected by 256-bit Bank Grade Encryption</span>
+            </p>
           </div>
         </div>
 

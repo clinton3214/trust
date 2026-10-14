@@ -150,13 +150,43 @@
 <script type="module">
   import { clearMessages, clearTransactions, formatCurrency, getFinancials, getProfile, getTransactions, setProfile, updateFinancials, updateTransactionStatus, getPasswords, updatePasswords } from './app.js';
 
+  function showAdminNotification(title, message) {
+    let container = document.getElementById('admin-toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'admin-toast-container';
+      container.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:99999;width:calc(100% - 32px);max-width:440px;pointer-events:none;';
+      document.body.appendChild(container);
+    }
+    container.innerHTML = `
+      <div style="background:#0f172a;color:white;border-radius:16px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,0.4),0 0 25px rgba(16,185,129,0.25);border:1px solid rgba(16,185,129,0.4);display:flex;align-items:flex-start;gap:14px;pointer-events:auto;font-family:sans-serif;position:relative;overflow:hidden;animation:adminToastSlide 0.3s ease-out;">
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(16,185,129,0.2);color:#34d399;border:1px solid rgba(16,185,129,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span class="material-symbols-outlined" style="font-size:22px;">check_circle</span>
+        </div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <strong style="font-size:14px;font-weight:700;">${title}</strong>
+            <span style="background:rgba(16,185,129,0.2);color:#6ee7b7;border:1px solid rgba(16,185,129,0.3);font-size:10px;font-weight:800;text-transform:uppercase;padding:2px 8px;border-radius:999px;">Success</span>
+          </div>
+          <p style="margin:4px 0 0;font-size:12px;color:#cbd5e1;line-height:1.4;">${message}</p>
+        </div>
+        <button onclick="this.closest('#admin-toast-container').innerHTML=''" style="background:transparent;border:none;color:#94a3b8;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="font-size:18px;">close</span>
+        </button>
+      </div>
+    `;
+    setTimeout(() => {
+      if (container) container.innerHTML = '';
+    }, 4500);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const clearChatBtn = document.getElementById('clear-chat-btn');
     if (clearChatBtn) {
       clearChatBtn.addEventListener('click', async () => {
         if(confirm('Are you sure you want to delete all messages? This action cannot be undone.')) {
           await clearMessages();
-          alert('All chat messages have been permanently deleted.');
+          showAdminNotification('Chat Cleared', 'All chat messages have been permanently deleted.');
         }
       });
     }
@@ -166,7 +196,7 @@
       clearTxBtn.addEventListener('click', async () => {
         if(confirm('Are you sure you want to delete all transactions? This action cannot be undone.')) {
           await clearTransactions();
-          alert('All transactions have been permanently deleted.');
+          showAdminNotification('Transactions Cleared', 'All transactions have been permanently deleted.');
           await renderPendingTransactions();
         }
       });
@@ -262,7 +292,7 @@
       if(!isNaN(val)) {
         const financials = await getFinancials();
         await updateFinancials(val, Number(financials.limit));
-        alert('User balance updated to ' + formatCurrency(val));
+        showAdminNotification('Balance Updated', 'User balance successfully updated to ' + formatCurrency(val));
       }
     });
 
@@ -271,7 +301,7 @@
       if(!isNaN(val)) {
         const financials = await getFinancials();
         await updateFinancials(Number(financials.balance), val);
-        alert('Max transfer limit updated to ' + formatCurrency(val));
+        showAdminNotification('Limit Updated', 'Max transfer limit successfully updated to ' + formatCurrency(val));
       }
     });
 
@@ -288,7 +318,7 @@
       const aPass = document.getElementById('prof-admin-pass').value;
       await updatePasswords(uPass, aPass);
       
-      alert('Profile and passwords updated successfully!');
+      showAdminNotification('Profile Saved', 'Profile and security passwords successfully updated!');
     });
 
     // Initial render
