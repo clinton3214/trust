@@ -2,17 +2,21 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
+  ArrowUpRight,
   Bell,
   ChevronRight,
   Eye,
   EyeOff,
+  Headphones,
   History as HistoryIcon,
   Menu,
   MoreHorizontal,
   Plus,
   Send,
   Settings2,
+  ShieldCheck,
   Sparkles,
 } from 'lucide-react'
 import { 
@@ -27,12 +31,14 @@ import BottomNav from '@/components/BottomNav'
 
 const quickActions = [
   { label: 'Send money', icon: Send, tone: 'violet', href: '/transfer' },
-  { label: 'Add money', icon: Plus, tone: 'mint', href: '/chat' },
+  { label: 'Add money', icon: Plus, tone: 'mint', href: '/add-money' },
   { label: 'History', icon: HistoryIcon, tone: 'peach', href: '/history' },
-  { label: 'More', icon: MoreHorizontal, tone: 'blue', href: '/profile' },
+  { label: 'More', icon: MoreHorizontal, tone: 'blue', href: '#more' },
 ]
 
 export default function HomePage() {
+  const router = useRouter()
+  const [menuOpen, setMenuOpen] = useState(false)
   const [balanceVisible, setBalanceVisible] = useState(true)
   const [balance, setBalance] = useState<number>(24850.40)
   const [profile, setProfile] = useState<UserProfile>(defaultProfile)
@@ -99,13 +105,14 @@ export default function HomePage() {
         {/* Top Header */}
         <header className="px-6 pb-5 pt-7">
           <div className="flex items-center justify-between">
-            <Link 
-              href="/profile" 
-              className="grid size-11 place-items-center rounded-2xl bg-white text-[#111827] shadow-sm transition-transform active:scale-95" 
-              aria-label="Open menu"
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className={`grid size-11 place-items-center rounded-2xl bg-white text-[#111827] shadow-sm transition-transform active:scale-95 ${menuOpen ? 'rotate-90' : ''}`}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
             >
               <Menu size={22} strokeWidth={2.2} />
-            </Link>
+            </button>
             
             <div className="flex items-center gap-2.5">
               <div className="grid size-9 place-items-center rounded-xl bg-[#152238] text-sm font-extrabold text-white">TB</div>
@@ -201,23 +208,41 @@ export default function HomePage() {
           </div>
           
           <div className="mt-4 grid grid-cols-4 gap-3">
-            {quickActions.map(({ label, icon: Icon, tone, href }) => (
-              <Link 
-                key={label} 
-                href={href}
-                className="flex min-w-0 flex-col items-center gap-2.5 rounded-2xl bg-white px-2 py-4 shadow-[0_5px_20px_rgba(54,71,102,0.06)] transition-transform active:scale-95"
-              >
-                <span className={`grid size-11 place-items-center rounded-[15px] ${
-                  tone === 'violet' ? 'bg-[#eeeaff] text-[#6559e8]' : 
-                  tone === 'mint' ? 'bg-[#dff9f1] text-[#16a88e]' : 
-                  tone === 'peach' ? 'bg-[#fff0e7] text-[#ed8759]' : 
-                  'bg-[#e8f1ff] text-[#4774dc]'
-                }`}>
-                  <Icon size={20} strokeWidth={2.2} />
-                </span>
-                <span className="text-center text-[11px] font-semibold text-[#536074] truncate w-full">{label}</span>
-              </Link>
-            ))}
+            {quickActions.map(({ label, icon: Icon, tone, href }) => {
+              if (label === 'More') {
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => setMenuOpen(true)}
+                    className="flex min-w-0 flex-col items-center gap-2.5 rounded-2xl bg-white px-2 py-4 shadow-[0_5px_20px_rgba(54,71,102,0.06)] transition-transform active:scale-95 text-center"
+                    aria-label="Open more banking services"
+                  >
+                    <span className="grid size-11 place-items-center rounded-[15px] bg-[#e8f1ff] text-[#4774dc]">
+                      <Icon size={20} strokeWidth={2.2} />
+                    </span>
+                    <span className="text-center text-[11px] font-semibold text-[#536074] truncate w-full">{label}</span>
+                  </button>
+                )
+              }
+              return (
+                <Link 
+                  key={label} 
+                  href={href}
+                  className="flex min-w-0 flex-col items-center gap-2.5 rounded-2xl bg-white px-2 py-4 shadow-[0_5px_20px_rgba(54,71,102,0.06)] transition-transform active:scale-95"
+                >
+                  <span className={`grid size-11 place-items-center rounded-[15px] ${
+                    tone === 'violet' ? 'bg-[#eeeaff] text-[#6559e8]' : 
+                    tone === 'mint' ? 'bg-[#dff9f1] text-[#16a88e]' : 
+                    tone === 'peach' ? 'bg-[#fff0e7] text-[#ed8759]' : 
+                    'bg-[#e8f1ff] text-[#4774dc]'
+                  }`}>
+                    <Icon size={20} strokeWidth={2.2} />
+                  </span>
+                  <span className="text-center text-[11px] font-semibold text-[#536074] truncate w-full">{label}</span>
+                </Link>
+              )
+            })}
           </div>
         </section>
 
@@ -322,6 +347,79 @@ export default function HomePage() {
             </p>
           </div>
         </section>
+
+        {/* Quick Access Liquid Glass Grid Modal */}
+        {menuOpen && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 z-40 bg-black/15 backdrop-blur-[2px] transition-opacity"
+              onClick={() => setMenuOpen(false)}
+              aria-hidden="true"
+            />
+
+            <div
+              className="fixed inset-x-4 bottom-[104px] z-50 mx-auto max-w-[448px] rounded-[30px] border border-white/80 bg-[#eef2fa]/90 p-3 shadow-[0_20px_55px_rgba(43,55,82,0.24),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200"
+              role="dialog"
+              aria-label="Banking services"
+            >
+              <div className="mb-2 flex items-center justify-between px-2 pt-1">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8c98aa]">
+                    Quick access
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-[#252f45]">
+                    What would you like to do?
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="grid size-8 place-items-center rounded-full bg-white/75 text-[#7f899c] hover:bg-white hover:text-[#111827] transition"
+                  aria-label="Close menu"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { label: 'Service', icon: Headphones, tone: 'violet', href: '/chat' },
+                  { label: 'Transfer', icon: ArrowUpRight, tone: 'mint', href: '/transfer' },
+                  { label: 'Profile', icon: ShieldCheck, tone: 'blue', href: '/profile' },
+                  { label: 'History', icon: HistoryIcon, tone: 'peach', href: '/history' },
+                  { label: 'Add money', icon: Plus, tone: 'gold', href: '/add-money' },
+                ].map(({ label, icon: Icon, tone, href }) => (
+                  <button
+                    key={label}
+                    onClick={() => {
+                      setMenuOpen(false)
+                      router.push(href)
+                    }}
+                    className="flex min-h-[88px] flex-col items-center justify-center gap-2 rounded-[22px] border border-white/70 bg-white/60 px-2 text-[#39445a] shadow-[0_5px_15px_rgba(73,88,120,0.07)] transition-transform active:scale-95"
+                  >
+                    <span
+                      className={`grid size-10 place-items-center rounded-2xl ${
+                        tone === 'violet'
+                          ? 'bg-[#eeeaff] text-[#6559e8]'
+                          : tone === 'mint'
+                            ? 'bg-[#dff9f1] text-[#16a88e]'
+                            : tone === 'blue'
+                              ? 'bg-[#e8f1ff] text-[#4774dc]'
+                              : tone === 'peach'
+                                ? 'bg-[#fff0e7] text-[#ed8759]'
+                                : 'bg-[#fff4dc] text-[#c38722]'
+                      }`}
+                    >
+                      <Icon size={19} />
+                    </span>
+                    <span className="text-[11px] font-bold">{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Global Bottom Navigation */}
         <BottomNav />
