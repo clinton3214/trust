@@ -3,7 +3,7 @@ services:
     name: trust-bank
     env: node
     rootDir: redesign
-    buildCommand: corepack enable && pnpm install && pnpm build
+    buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
     plan: free
     autoDeploy: true
